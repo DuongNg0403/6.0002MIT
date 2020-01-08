@@ -1,4 +1,5 @@
 from food import Food
+import BruteForce
 '''
     Choosing what to eat at a meal such that doesn't exceed a certain
     amount of calories
@@ -45,8 +46,16 @@ def testGreedys(foods, maxUnits):
     print("\n Use greedy by density to allocate {} calories".format(maxUnits))
     testGreedy(foods, maxUnits, Food.trueValue)
 
+def testBrute(foods, maxUnits):
+    print("Use Brute Force by value to allocate {} calories".format(maxUnits))
+    print(BruteForce.maxVal(foods, maxUnits))
+    BruteForce.iterations()
+
+
+
 names =  ['wine', 'beer', 'pizza', 'burger', 'fries', 'cola', 'apple', 'donut']
 values = [89, 90, 95, 100, 90, 79, 50, 10]
 calories = [123,154,258,354,365,150,95,195]
 foods = buildMenu(names, values, calories)
 testGreedys(foods, 750)
+testBrute(foods, 750)
