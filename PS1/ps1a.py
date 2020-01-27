@@ -25,7 +25,27 @@ def load_cows(filename):
     a dictionary of cow name (string), weight (int) pairs
     """
     # TODO: Your code here
-    pass
+    cowDict = {}
+    
+    f = open(filename, "r")
+    line = f.readline()
+    while line:
+        
+        line = line.replace("\n","")
+        splittedLine = line.split(',')
+        
+        #print(splittedLine)
+        #print(splittedLine[0])
+        #print(splittedLine[1])
+        cowDict[splittedLine[0]] = int(splittedLine[1])
+        line = f.readline()
+    f.close()
+    return cowDict
+    
+
+
+
+    
 
 # Problem 2
 def greedy_cow_transport(cows,limit=10):
@@ -50,8 +70,25 @@ def greedy_cow_transport(cows,limit=10):
     transported on a particular trip and the overall list containing all the
     trips
     """
-    # TODO: Your code here
-    pass
+    allTrip = []
+    currentTrip = []
+    cowCopy = {k:v for k,v in sorted(cows.items(),key = lambda x: x[1], reverse=True)}#important
+    #print(cowCopy)
+    while len(cowCopy) != 0:
+        currentTrip=[list(cowCopy.items())[0][0]]#dict.items() is iterable but not indexible so convert it to list
+        avail =limit - list(cowCopy.items())[0][1]
+        cowCopy.pop(currentTrip[0])
+        for n in cowCopy.copy():
+            if cowCopy[n] <=avail:
+                currentTrip.append(n)
+                avail-= cowCopy[n]
+                cowCopy.pop(n)
+            else:
+                continue
+        allTrip.append(currentTrip)                
+    #print(allTrip)
+    return allTrip  ################  O(n^2)
+    
 
 # Problem 3
 def brute_force_cow_transport(cows,limit=10):
@@ -94,3 +131,9 @@ def compare_cow_transport_algorithms():
     """
     # TODO: Your code here
     pass
+
+
+############ TESTING ##############
+cowDict = load_cows("C:\\Users\\MikeN\Python\\6.0002MIT\\PS1\\ps1_cow_data.txt")
+greedy_cow_transport(cowDict, 10)
+#print(cowDict)
