@@ -114,15 +114,19 @@ def brute_force_cow_transport(cows,limit=10):
     """
     bestTrip = []
     cow_set = cows.keys()
-    leastTrip = 0
+    leastTrip = 10
     for cowTrip in get_partitions(cow_set):
-        
+        weightSum = 0
         for trip in cowTrip:
-            weightSum = 0
+            
             for cow in trip:
                 weightSum+= cows[cow]
             if weightSum > limit:
                 break
+            else:
+                weightSum=0
+        if weightSum >0:
+            continue
         if len(cowTrip)<=leastTrip:
             bestTrip = cowTrip
             leastTrip = len(bestTrip)
@@ -143,11 +147,26 @@ def compare_cow_transport_algorithms():
     Returns:
     Does not return anything.
     """
-    # TODO: Your code here
-    pass
+    cowDict = load_cows("C:\\Users\\MikeN\Python\\6.0002MIT\\PS1\\ps1_cow_data.txt")
+    startGreedy = time.time()
+    greddyTrip = greedy_cow_transport(cowDict,10)
+    endGreedy = time.time()
+    greedyTime = startGreedy-endGreedy
+    print("Number of greedy trips is: {}. The algorithm takes {} seconds to run.".format(len(greddyTrip), greedyTime))
+
+    startBrute = time.time()
+    bruteTrip = brute_force_cow_transport(cowDict,10)
+    endBrute = time.time()
+    bruteTime = startBrute-endBrute
+    print("Number of brute trips is: {}. The algorithm takes {} seconds to run.".format(len(bruteTrip), bruteTime))
+
 
 
 ############ TESTING ##############
-cowDict = load_cows("C:\\Users\\MikeN\Python\\6.0002MIT\\PS1\\ps1_cow_data.txt")
-greedy_cow_transport(cowDict, 10)
+
+#print(greedy_cow_transport(cowDict, 10))
 #print(cowDict)
+#print(brute_force_cow_transport(cowDict, 10))
+#for c in get_partitions(cowDict): 
+#    print(c)
+compare_cow_transport_algorithms()
